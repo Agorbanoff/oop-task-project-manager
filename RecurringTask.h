@@ -13,8 +13,11 @@ public:
     RecurringTask(int id,
                   const std::string& title,
                   const std::string& description,
-                  Priority priority,
+                  const std::string& createdDate,
                   const std::string& deadline,
+                  Priority priority,
+                  const std::string& assignee,
+                  const std::vector<std::string>& tags,
                   const std::string& recurrence);
 
     std::string getRecurrence() const;

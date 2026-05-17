@@ -15,7 +15,11 @@ private:
     std::vector<std::shared_ptr<Task>> tasks;
 
 public:
-    Project(int id, const std::string& title, const std::string& description);
+    Project(int id,
+            const std::string& title,
+            const std::string& description,
+            const std::string& createdDate,
+            const std::string& deadline);
 
     void addTask(const std::shared_ptr<Task>& task);
     std::shared_ptr<Task> findTaskById(int taskId);

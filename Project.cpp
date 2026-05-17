@@ -2,8 +2,12 @@
 
 #include <iostream>
 
-Project::Project(int id, const std::string& title, const std::string& description)
-    : WorkItem(id, title, description) {
+Project::Project(int id,
+                 const std::string& title,
+                 const std::string& description,
+                 const std::string& createdDate,
+                 const std::string& deadline)
+    : WorkItem(id, title, description, createdDate, deadline) {
 }
 
 void Project::addTask(const std::shared_ptr<Task>& task) {
@@ -24,6 +28,9 @@ void Project::display() const {
     std::cout << "Project ID: " << id << '\n'
               << "Title: " << title << '\n'
               << "Description: " << description << '\n'
+              << "Created date: " << createdDate << '\n'
+              << "Deadline: " << deadline << '\n'
+              << "Status: " << statusToString(status) << '\n'
               << "Tasks: " << tasks.size() << '\n';
 }
 

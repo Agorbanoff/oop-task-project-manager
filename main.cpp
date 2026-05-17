@@ -77,6 +77,29 @@ Status readStatus() {
     }
 }
 
+std::vector<std::string> readTags() {
+    std::vector<std::string> tags;
+    std::string tagLine = readLine("Tags separated by commas (or leave empty): ");
+    std::string currentTag;
+
+    for (char ch : tagLine) {
+        if (ch == ',') {
+            if (!currentTag.empty()) {
+                tags.push_back(currentTag);
+                currentTag.clear();
+            }
+        } else if (ch != ' ') {
+            currentTag += ch;
+        }
+    }
+
+    if (!currentTag.empty()) {
+        tags.push_back(currentTag);
+    }
+
+    return tags;
+}
+
 std::shared_ptr<Project> findProjectById(std::vector<std::shared_ptr<Project>>& projects, int projectId) {
     for (std::shared_ptr<Project>& project : projects) {
         if (project->getId() == projectId) {
@@ -117,8 +140,11 @@ int main() {
         if (choice == 1) {
             std::string title = readLine("Project title: ");
             std::string description = readLine("Project description: ");
+            std::string createdDate = readLine("Created date (YYYY-MM-DD): ");
+            std::string deadline = readLine("Project deadline (YYYY-MM-DD): ");
 
-            projects.push_back(std::make_shared<Project>(nextProjectId, title, description));
+            projects.push_back(std::make_shared<Project>(
+                nextProjectId, title, description, createdDate, deadline));
             std::cout << "Project created with ID " << nextProjectId << ".\n";
             nextProjectId++;
         } else if (choice == 2) {
@@ -141,17 +167,20 @@ int main() {
 
             std::string title = readLine("Task title: ");
             std::string description = readLine("Task description: ");
+            std::string createdDate = readLine("Created date (YYYY-MM-DD): ");
             Priority priority = readPriority();
+            std::string assignee = readLine("Assignee: ");
+            std::vector<std::string> tags = readTags();
             std::string deadline = readLine("Deadline (YYYY-MM-DD): ");
             int recurringChoice = readInt("Is this a recurring task? (1 = yes, 0 = no): ");
 
             if (recurringChoice == 1) {
                 std::string recurrence = readLine("Recurrence (example: daily, weekly, monthly): ");
                 project->addTask(std::make_shared<RecurringTask>(
-                    nextTaskId, title, description, priority, deadline, recurrence));
+                    nextTaskId, title, description, createdDate, deadline, priority, assignee, tags, recurrence));
             } else {
                 project->addTask(std::make_shared<Task>(
-                    nextTaskId, title, description, priority, deadline));
+                    nextTaskId, title, description, createdDate, deadline, priority, assignee, tags));
             }
 
             std::cout << "Task added with ID " << nextTaskId << ".\n";

@@ -6,27 +6,31 @@
 #include "WorkItem.h"
 
 #include <string>
+#include <vector>
 
 class Task : public WorkItem {
-protected:
-    Status status;
+private:
     Priority priority;
-    std::string deadline;
+    std::string assignee;
+    std::vector<std::string> tags;
 
 public:
     Task(int id,
          const std::string& title,
          const std::string& description,
+         const std::string& createdDate,
+         const std::string& deadline,
          Priority priority,
-         const std::string& deadline);
+         const std::string& assignee,
+         const std::vector<std::string>& tags);
 
-    Status getStatus() const;
     Priority getPriority() const;
-    std::string getDeadline() const;
+    std::string getAssignee() const;
+    std::vector<std::string> getTags() const;
 
-    void setStatus(Status status);
     void setPriority(Priority priority);
-    void setDeadline(const std::string& deadline);
+    void setAssignee(const std::string& assignee);
+    void setTags(const std::vector<std::string>& tags);
 
     virtual bool isOverdue(const std::string& currentDate) const;
     void display() const override;
