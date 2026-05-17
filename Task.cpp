@@ -1,6 +1,16 @@
 #include "Task.h"
 
+#include <ctime>
 #include <iostream>
+
+std::string getTodayDate() {
+    std::time_t now = std::time(nullptr);
+    std::tm* localTime = std::localtime(&now);
+    char buffer[11];
+
+    std::strftime(buffer, sizeof(buffer), "%Y-%m-%d", localTime);
+    return buffer;
+}
 
 Task::Task(int id,
            const std::string& title,
@@ -40,8 +50,8 @@ void Task::setTags(const std::vector<std::string>& tags) {
     this->tags = tags;
 }
 
-bool Task::isOverdue(const std::string& currentDate) const {
-    return status != Status::Completed && deadline < currentDate;
+bool Task::isOverdue() const {
+    return status != Status::Completed && deadline < getTodayDate();
 }
 
 void Task::display() const {

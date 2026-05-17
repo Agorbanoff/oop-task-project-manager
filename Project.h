@@ -28,7 +28,7 @@ public:
     void displayTasks() const;
     void displayTasksByStatus(Status status) const;
     void displayTasksByPriority(Priority priority) const;
-    void showSummary(const std::string& currentDate) const;
+    void showSummary() const;
 };
 
 #endif

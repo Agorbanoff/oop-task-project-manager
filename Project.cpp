@@ -78,22 +78,28 @@ void Project::displayTasksByPriority(Priority priority) const {
     }
 }
 
-void Project::showSummary(const std::string& currentDate) const {
+void Project::showSummary() const {
     int completedTasks = 0;
     int overdueTasks = 0;
+    int highPriorityTasks = 0;
 
     for (const std::shared_ptr<Task>& task : tasks) {
         if (task->getStatus() == Status::Completed) {
             completedTasks++;
         }
 
-        if (task->isOverdue(currentDate)) {
+        if (task->isOverdue()) {
             overdueTasks++;
+        }
+
+        if (task->getPriority() == Priority::High) {
+            highPriorityTasks++;
         }
     }
 
     std::cout << "Summary for project: " << title << '\n'
               << "Total tasks: " << tasks.size() << '\n'
               << "Completed tasks: " << completedTasks << '\n'
-              << "Overdue tasks: " << overdueTasks << '\n';
+              << "Overdue tasks: " << overdueTasks << '\n'
+              << "Urgent/high priority tasks: " << highPriorityTasks << '\n';
 }

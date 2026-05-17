@@ -32,7 +32,7 @@ public:
     void setAssignee(const std::string& assignee);
     void setTags(const std::vector<std::string>& tags);
 
-    virtual bool isOverdue(const std::string& currentDate) const;
+    virtual bool isOverdue() const;
     void display() const override;
 };
 

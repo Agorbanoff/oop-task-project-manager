@@ -232,8 +232,7 @@ int main() {
                 continue;
             }
 
-            std::string currentDate = readLine("Current date (YYYY-MM-DD): ");
-            project->showSummary(currentDate);
+            project->showSummary();
         } else {
             std::cout << "Invalid option. Try again.\n";
         }
