@@ -112,15 +112,14 @@ std::shared_ptr<Project> findProjectById(std::vector<std::shared_ptr<Project>>& 
 
 void displayMenu() {
     std::cout << "\n===== Task and Project Manager =====\n"
-              << "1. Create project\n"
-              << "2. Display projects\n"
+              << "1. Add project\n"
+              << "2. Show all projects\n"
               << "3. Add task to project\n"
-              << "4. Change task status\n"
-              << "5. Display tasks by priority\n"
-              << "6. Display tasks by status\n"
+              << "4. Show tasks in a project\n"
+              << "5. Change task status\n"
+              << "6. Filter tasks by priority\n"
               << "7. Show project summary\n"
-              << "8. Display all tasks in a project\n"
-              << "0. Exit\n";
+              << "8. Exit\n";
 }
 
 int main() {
@@ -132,7 +131,7 @@ int main() {
         displayMenu();
         int choice = readInt("Choose an option: ");
 
-        if (choice == 0) {
+        if (choice == 8) {
             std::cout << "Goodbye!\n";
             break;
         }
@@ -194,6 +193,16 @@ int main() {
                 continue;
             }
 
+            project->displayTasks();
+        } else if (choice == 5) {
+            int projectId = readInt("Project ID: ");
+            std::shared_ptr<Project> project = findProjectById(projects, projectId);
+
+            if (project == nullptr) {
+                std::cout << "Project not found.\n";
+                continue;
+            }
+
             int taskId = readInt("Task ID: ");
             std::shared_ptr<Task> task = project->findTaskById(taskId);
 
@@ -204,16 +213,6 @@ int main() {
 
             task->setStatus(readStatus());
             std::cout << "Task status updated.\n";
-        } else if (choice == 5) {
-            int projectId = readInt("Project ID: ");
-            std::shared_ptr<Project> project = findProjectById(projects, projectId);
-
-            if (project == nullptr) {
-                std::cout << "Project not found.\n";
-                continue;
-            }
-
-            project->displayTasksByPriority(readPriority());
         } else if (choice == 6) {
             int projectId = readInt("Project ID: ");
             std::shared_ptr<Project> project = findProjectById(projects, projectId);
@@ -223,7 +222,7 @@ int main() {
                 continue;
             }
 
-            project->displayTasksByStatus(readStatus());
+            project->displayTasksByPriority(readPriority());
         } else if (choice == 7) {
             int projectId = readInt("Project ID: ");
             std::shared_ptr<Project> project = findProjectById(projects, projectId);
@@ -235,16 +234,6 @@ int main() {
 
             std::string currentDate = readLine("Current date (YYYY-MM-DD): ");
             project->showSummary(currentDate);
-        } else if (choice == 8) {
-            int projectId = readInt("Project ID: ");
-            std::shared_ptr<Project> project = findProjectById(projects, projectId);
-
-            if (project == nullptr) {
-                std::cout << "Project not found.\n";
-                continue;
-            }
-
-            project->displayTasks();
         } else {
             std::cout << "Invalid option. Try again.\n";
         }
