@@ -1,52 +1,103 @@
 # Task and Project Manager
 
-A simple C++17 OOP console application for a school checkpoint project.
+A simple C++17 OOP console application for managing school projects and tasks.
+The program stores data in memory and uses a console menu.
 
-## Theme
+## Checkpoint 2 Functionalities
 
-Task and Project Manager
+The current implementation includes:
 
-## OOP Structure
+1. Add projects.
+2. Show all projects.
+3. Add tasks to a project.
+4. Show tasks in a project.
+5. Change task status.
+6. Filter tasks by priority.
+7. Detect overdue tasks using simple `YYYY-MM-DD` date comparison.
+8. Show a project summary with:
+   - total tasks
+   - completed tasks
+   - overdue tasks
+   - urgent/high priority tasks
+
+No file storage is used for this checkpoint. All data is kept in memory using vectors.
+
+## Project Structure
+
+```text
+oop-task-project-manager/
+├── include/
+│   ├── Priority.h
+│   ├── Project.h
+│   ├── RecurringTask.h
+│   ├── Status.h
+│   ├── Task.h
+│   └── WorkItem.h
+├── src/
+│   ├── main.cpp
+│   ├── Project.cpp
+│   ├── RecurringTask.cpp
+│   ├── Task.cpp
+│   └── WorkItem.cpp
+├── build/
+├── Makefile
+└── README.md
+```
+
+## How to Compile
+
+Using the Makefile:
+
+```bash
+make
+```
+
+Or compile manually with g++:
+
+```bash
+g++ -std=c++17 -Wall -Wextra -pedantic -Iinclude src/main.cpp src/WorkItem.cpp src/Task.cpp src/RecurringTask.cpp src/Project.cpp -o build/task_manager
+```
+
+On Windows PowerShell:
+
+```powershell
+g++ -std=c++17 -Wall -Wextra -pedantic -Iinclude src/main.cpp src/WorkItem.cpp src/Task.cpp src/RecurringTask.cpp src/Project.cpp -o build/task_manager.exe
+```
+
+## How to Run
+
+After compiling with the Makefile on Linux/macOS:
+
+```bash
+./build/task_manager
+```
+
+After compiling manually on Windows PowerShell:
+
+```powershell
+.\build\task_manager.exe
+```
+
+## OOP Concepts Used
 
 - `WorkItem` is an abstract base class.
 - `Project` inherits from `WorkItem`.
 - `Task` inherits from `WorkItem`.
 - `RecurringTask` inherits from `Task`.
 - `Status` and `Priority` are implemented as `enum class`.
+- Fields are private or protected where appropriate.
+- Public getters and setters are used for controlled access.
+- Virtual methods are used for polymorphic behavior.
+- Smart pointers are used to store tasks in projects.
 
-## Features
+## Design Changes
 
-1. Create and display projects.
-2. Add normal or recurring tasks to a project.
-3. Change task status.
-4. Display tasks by priority or status.
-5. Detect overdue tasks using `YYYY-MM-DD` string comparison.
-6. Show project summary with total, completed, and overdue tasks.
+The original design planned more classes and features such as comments, reports,
+subtasks, and users. For checkpoint 2, the implementation focuses on the core
+class hierarchy and the first working functionalities. These extra features can
+be added later.
 
-## Compile and Run
-
-Using the Makefile:
-
-```bash
-make
-./task_manager
-```
-
-Or compile manually with g++:
-
-```bash
-g++ -std=c++17 -Wall -Wextra -pedantic main.cpp WorkItem.cpp Task.cpp RecurringTask.cpp Project.cpp -o task_manager
-./task_manager
-```
-
-On Windows PowerShell, if you compile with g++ manually:
-
-```powershell
-g++ -std=c++17 -Wall -Wextra -pedantic main.cpp WorkItem.cpp Task.cpp RecurringTask.cpp Project.cpp -o task_manager.exe
-.\task_manager.exe
-```
-
-## Note About Dates
+## Date Format
 
 Deadlines should be entered in this format:
 

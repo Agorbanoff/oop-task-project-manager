@@ -1,17 +1,18 @@
 CXX = g++
-CXXFLAGS = -std=c++17 -Wall -Wextra -pedantic
-TARGET = task_manager
-SOURCES = main.cpp WorkItem.cpp Task.cpp RecurringTask.cpp Project.cpp
+CXXFLAGS = -std=c++17 -Wall -Wextra -pedantic -Iinclude
+TARGET = build/task_manager
+SOURCES = src/main.cpp src/WorkItem.cpp src/Task.cpp src/RecurringTask.cpp src/Project.cpp
 
 all: $(TARGET)
 
 $(TARGET): $(SOURCES)
+	mkdir -p build
 	$(CXX) $(CXXFLAGS) $(SOURCES) -o $(TARGET)
 
 run: $(TARGET)
 	./$(TARGET)
 
 clean:
-	rm -f $(TARGET)
+	rm -rf build
 
 .PHONY: all run clean
