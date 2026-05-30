@@ -22,6 +22,7 @@ public:
 
     void addTask(const Task& task);
     Task* findTaskById(int taskId);
+    bool deleteTaskByIndex(int taskNumber);
 
     void display() const override;
     void displayTasks() const;

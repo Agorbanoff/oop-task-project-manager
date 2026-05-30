@@ -24,6 +24,15 @@ Task* Project::findTaskById(int taskId) {
     return nullptr;
 }
 
+bool Project::deleteTaskByIndex(int taskNumber) {
+    if (taskNumber < 1 || taskNumber > static_cast<int>(tasks.size())) {
+        return false;
+    }
+
+    tasks.erase(tasks.begin() + taskNumber - 1);
+    return true;
+}
+
 void Project::display() const {
     std::cout << "Project ID: " << id << '\n'
               << "Title: " << title << '\n'
@@ -40,9 +49,10 @@ void Project::displayTasks() const {
         return;
     }
 
-    for (const Task& task : tasks) {
+    for (size_t i = 0; i < tasks.size(); i++) {
         std::cout << "------------------------\n";
-        task.display();
+        std::cout << "Task number: " << i + 1 << '\n';
+        tasks[i].display();
     }
 }
 

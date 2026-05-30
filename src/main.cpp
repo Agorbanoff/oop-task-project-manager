@@ -117,8 +117,9 @@ void displayMenu() {
               << "4. Show tasks in a project\n"
               << "5. Change task status\n"
               << "6. Filter tasks by priority\n"
-              << "7. Show project summary\n"
-              << "8. Exit\n";
+              << "7. Delete task from project\n"
+              << "8. Show project summary\n"
+              << "9. Exit\n";
 }
 
 int main() {
@@ -130,7 +131,7 @@ int main() {
         displayMenu();
         int choice = readInt("Choose an option: ");
 
-        if (choice == 8) {
+        if (choice == 9) {
             std::cout << "Goodbye!\n";
             break;
         }
@@ -213,6 +214,23 @@ int main() {
 
             project->displayTasksByPriority(readPriority());
         } else if (choice == 7) {
+            int projectId = readInt("Project ID: ");
+            Project* project = findProjectById(projects, projectId);
+
+            if (project == nullptr) {
+                std::cout << "Project not found.\n";
+                continue;
+            }
+
+            project->displayTasks();
+            int taskNumber = readInt("Task number to delete: ");
+
+            if (project->deleteTaskByIndex(taskNumber)) {
+                std::cout << "Task deleted successfully.\n";
+            } else {
+                std::cout << "Invalid task number. No task was deleted.\n";
+            }
+        } else if (choice == 8) {
             int projectId = readInt("Project ID: ");
             Project* project = findProjectById(projects, projectId);
 
