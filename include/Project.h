@@ -29,6 +29,7 @@ public:
     void displayTasks() const;
     void displayTasksByStatus(Status status) const;
     void displayTasksByPriority(Priority priority) const;
+    void displayTasksByTag(const std::string& tag) const;
     void showSummary() const;
 };
 

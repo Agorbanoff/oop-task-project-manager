@@ -96,6 +96,27 @@ void Project::displayTasksByPriority(Priority priority) const {
     }
 }
 
+void Project::displayTasksByTag(const std::string& tag) const {
+    bool found = false;
+
+    for (const Task& task : tasks) {
+        std::vector<std::string> tags = task.getTags();
+
+        for (const std::string& taskTag : tags) {
+            if (taskTag == tag) {
+                std::cout << "------------------------\n";
+                task.display();
+                found = true;
+                break;
+            }
+        }
+    }
+
+    if (!found) {
+        std::cout << "No tasks found with this tag.\n";
+    }
+}
+
 void Project::showSummary() const {
     int completedTasks = 0;
     int overdueTasks = 0;
