@@ -30,6 +30,7 @@ public:
     void displayTasksByStatus(Status status) const;
     void displayTasksByPriority(Priority priority) const;
     void displayTasksByTag(const std::string& tag) const;
+    void searchTasksByTitle(const std::string& searchText) const;
     void showSummary() const;
 };
 

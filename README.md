@@ -14,10 +14,11 @@ The current implementation includes:
 5. Change task status.
 6. Filter tasks by priority.
 7. Filter tasks by tag.
-8. Edit a task in a project by task number.
-9. Delete a task from a project by task number.
-10. Detect overdue tasks using simple `YYYY-MM-DD` date comparison.
-11. Show a project summary with:
+8. Search tasks by title inside a selected project.
+9. Edit a task in a project by task number.
+10. Delete a task from a project by task number.
+11. Detect overdue tasks using simple `YYYY-MM-DD` date comparison.
+12. Show a project summary with:
    - total tasks
    - completed tasks
    - overdue tasks

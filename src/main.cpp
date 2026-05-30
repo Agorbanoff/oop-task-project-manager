@@ -118,10 +118,11 @@ void displayMenu() {
               << "5. Change task status\n"
               << "6. Filter tasks by priority\n"
               << "7. Filter tasks by tag\n"
-              << "8. Edit task in project\n"
-              << "9. Delete task from project\n"
-              << "10. Show project summary\n"
-              << "11. Exit\n";
+              << "8. Search tasks by title\n"
+              << "9. Edit task in project\n"
+              << "10. Delete task from project\n"
+              << "11. Show project summary\n"
+              << "12. Exit\n";
 }
 
 int main() {
@@ -133,7 +134,7 @@ int main() {
         displayMenu();
         int choice = readInt("Choose an option: ");
 
-        if (choice == 11) {
+        if (choice == 12) {
             std::cout << "Goodbye!\n";
             break;
         }
@@ -235,6 +236,17 @@ int main() {
                 continue;
             }
 
+            std::string searchText = readLine("Search title: ");
+            project->searchTasksByTitle(searchText);
+        } else if (choice == 9) {
+            int projectId = readInt("Project ID: ");
+            Project* project = findProjectById(projects, projectId);
+
+            if (project == nullptr) {
+                std::cout << "Project not found.\n";
+                continue;
+            }
+
             project->displayTasks();
             int taskNumber = readInt("Task number to edit: ");
             Task* task = project->findTaskByIndex(taskNumber);
@@ -257,7 +269,7 @@ int main() {
             task->setAssignee(assignee);
 
             std::cout << "Task edited successfully.\n";
-        } else if (choice == 9) {
+        } else if (choice == 10) {
             int projectId = readInt("Project ID: ");
             Project* project = findProjectById(projects, projectId);
 
@@ -274,7 +286,7 @@ int main() {
             } else {
                 std::cout << "Invalid task number. No task was deleted.\n";
             }
-        } else if (choice == 10) {
+        } else if (choice == 11) {
             int projectId = readInt("Project ID: ");
             Project* project = findProjectById(projects, projectId);
 

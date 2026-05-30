@@ -117,6 +117,22 @@ void Project::displayTasksByTag(const std::string& tag) const {
     }
 }
 
+void Project::searchTasksByTitle(const std::string& searchText) const {
+    bool found = false;
+
+    for (const Task& task : tasks) {
+        if (task.getTitle().find(searchText) != std::string::npos) {
+            std::cout << "------------------------\n";
+            task.display();
+            found = true;
+        }
+    }
+
+    if (!found) {
+        std::cout << "No tasks found with this title.\n";
+    }
+}
+
 void Project::showSummary() const {
     int completedTasks = 0;
     int overdueTasks = 0;
