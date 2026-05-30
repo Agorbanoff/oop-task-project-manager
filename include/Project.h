@@ -24,6 +24,7 @@ public:
 
     void addTask(const Task& task);
     void addRecurringTask(const RecurringTask& task);
+    int getTaskCount() const;
     Task* findTaskById(int taskId);
     Task* findTaskByIndex(int taskNumber);
     bool deleteTaskByIndex(int taskNumber);

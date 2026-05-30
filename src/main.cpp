@@ -36,13 +36,25 @@ int readInt(const std::string& message) {
     }
 }
 
+int readIntInRange(const std::string& message, int minValue, int maxValue) {
+    while (true) {
+        int value = readInt(message);
+
+        if (value >= minValue && value <= maxValue) {
+            return value;
+        }
+
+        std::cout << "Please enter a number from " << minValue << " to " << maxValue << ".\n";
+    }
+}
+
 Priority readPriority() {
     std::cout << "Choose priority:\n"
               << "1. Low\n"
               << "2. Medium\n"
               << "3. High\n";
 
-    int choice = readInt("Choice: ");
+    int choice = readIntInRange("Choice: ", 1, 3);
     switch (choice) {
         case 1:
             return Priority::Low;
@@ -51,7 +63,6 @@ Priority readPriority() {
         case 3:
             return Priority::High;
         default:
-            std::cout << "Invalid choice. Medium priority selected.\n";
             return Priority::Medium;
     }
 }
@@ -62,7 +73,7 @@ Status readStatus() {
               << "2. In Progress\n"
               << "3. Completed\n";
 
-    int choice = readInt("Choice: ");
+    int choice = readIntInRange("Choice: ", 1, 3);
     switch (choice) {
         case 1:
             return Status::NotStarted;
@@ -71,7 +82,6 @@ Status readStatus() {
         case 3:
             return Status::Completed;
         default:
-            std::cout << "Invalid choice. Not Started selected.\n";
             return Status::NotStarted;
     }
 }
@@ -130,6 +140,15 @@ void showProjects(const std::vector<Project>& projects) {
     }
 }
 
+bool hasProjects(const std::vector<Project>& projects) {
+    if (projects.empty()) {
+        std::cout << "No projects created yet.\n";
+        return false;
+    }
+
+    return true;
+}
+
 void displayMenu() {
     std::cout << "\n===== Task and Project Manager =====\n"
               << "1. Add project\n"
@@ -156,7 +175,7 @@ int main() {
 
     while (true) {
         displayMenu();
-        int choice = readInt("Choose an option: ");
+        int choice = readIntInRange("Choose an option: ", 1, 15);
 
         if (choice == 15) {
             std::cout << "Goodbye!\n";
@@ -175,8 +194,12 @@ int main() {
         } else if (choice == 2) {
             showProjects(projects);
         } else if (choice == 3) {
+            if (!hasProjects(projects)) {
+                continue;
+            }
+
             showProjects(projects);
-            int projectNumber = readInt("Project number to edit: ");
+            int projectNumber = readIntInRange("Project number to edit: ", 1, static_cast<int>(projects.size()));
             Project* project = findProjectByIndex(projects, projectNumber);
 
             if (project == nullptr) {
@@ -196,17 +219,20 @@ int main() {
 
             std::cout << "Project edited successfully.\n";
         } else if (choice == 4) {
-            showProjects(projects);
-            int projectNumber = readInt("Project number to delete: ");
-
-            if (projectNumber < 1 || projectNumber > static_cast<int>(projects.size())) {
-                std::cout << "Invalid project number. No project was deleted.\n";
+            if (!hasProjects(projects)) {
                 continue;
             }
+
+            showProjects(projects);
+            int projectNumber = readIntInRange("Project number to delete: ", 1, static_cast<int>(projects.size()));
 
             projects.erase(projects.begin() + projectNumber - 1);
             std::cout << "Project deleted successfully.\n";
         } else if (choice == 5) {
+            if (!hasProjects(projects)) {
+                continue;
+            }
+
             int projectId = readInt("Project ID: ");
             Project* project = findProjectById(projects, projectId);
 
@@ -227,6 +253,10 @@ int main() {
             std::cout << "Task added with ID " << nextTaskId << ".\n";
             nextTaskId++;
         } else if (choice == 6) {
+            if (!hasProjects(projects)) {
+                continue;
+            }
+
             int projectId = readInt("Project ID: ");
             Project* project = findProjectById(projects, projectId);
 
@@ -259,6 +289,10 @@ int main() {
             std::cout << "Recurring task added with ID " << nextTaskId << ".\n";
             nextTaskId++;
         } else if (choice == 7) {
+            if (!hasProjects(projects)) {
+                continue;
+            }
+
             int projectId = readInt("Project ID: ");
             Project* project = findProjectById(projects, projectId);
 
@@ -269,6 +303,10 @@ int main() {
 
             project->displayTasks();
         } else if (choice == 8) {
+            if (!hasProjects(projects)) {
+                continue;
+            }
+
             int projectId = readInt("Project ID: ");
             Project* project = findProjectById(projects, projectId);
 
@@ -288,6 +326,10 @@ int main() {
             task->setStatus(readStatus());
             std::cout << "Task status updated.\n";
         } else if (choice == 9) {
+            if (!hasProjects(projects)) {
+                continue;
+            }
+
             int projectId = readInt("Project ID: ");
             Project* project = findProjectById(projects, projectId);
 
@@ -298,6 +340,10 @@ int main() {
 
             project->displayTasksByPriority(readPriority());
         } else if (choice == 10) {
+            if (!hasProjects(projects)) {
+                continue;
+            }
+
             int projectId = readInt("Project ID: ");
             Project* project = findProjectById(projects, projectId);
 
@@ -309,6 +355,10 @@ int main() {
             std::string tag = readLine("Tag to search: ");
             project->displayTasksByTag(tag);
         } else if (choice == 11) {
+            if (!hasProjects(projects)) {
+                continue;
+            }
+
             int projectId = readInt("Project ID: ");
             Project* project = findProjectById(projects, projectId);
 
@@ -320,6 +370,10 @@ int main() {
             std::string searchText = readLine("Search title: ");
             project->searchTasksByTitle(searchText);
         } else if (choice == 12) {
+            if (!hasProjects(projects)) {
+                continue;
+            }
+
             int projectId = readInt("Project ID: ");
             Project* project = findProjectById(projects, projectId);
 
@@ -329,7 +383,11 @@ int main() {
             }
 
             project->displayTasks();
-            int taskNumber = readInt("Task number to edit: ");
+            if (project->getTaskCount() == 0) {
+                continue;
+            }
+
+            int taskNumber = readIntInRange("Task number to edit: ", 1, project->getTaskCount());
             Task* task = project->findTaskByIndex(taskNumber);
 
             if (task == nullptr) {
@@ -351,6 +409,10 @@ int main() {
 
             std::cout << "Task edited successfully.\n";
         } else if (choice == 13) {
+            if (!hasProjects(projects)) {
+                continue;
+            }
+
             int projectId = readInt("Project ID: ");
             Project* project = findProjectById(projects, projectId);
 
@@ -360,7 +422,11 @@ int main() {
             }
 
             project->displayTasks();
-            int taskNumber = readInt("Task number to delete: ");
+            if (project->getTaskCount() == 0) {
+                continue;
+            }
+
+            int taskNumber = readIntInRange("Task number to delete: ", 1, project->getTaskCount());
 
             if (project->deleteTaskByIndex(taskNumber)) {
                 std::cout << "Task deleted successfully.\n";
@@ -368,6 +434,10 @@ int main() {
                 std::cout << "Invalid task number. No task was deleted.\n";
             }
         } else if (choice == 14) {
+            if (!hasProjects(projects)) {
+                continue;
+            }
+
             int projectId = readInt("Project ID: ");
             Project* project = findProjectById(projects, projectId);
 

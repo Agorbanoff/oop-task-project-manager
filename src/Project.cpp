@@ -18,6 +18,10 @@ void Project::addRecurringTask(const RecurringTask& task) {
     recurringTasks.push_back(task);
 }
 
+int Project::getTaskCount() const {
+    return static_cast<int>(tasks.size() + recurringTasks.size());
+}
+
 Task* Project::findTaskById(int taskId) {
     for (Task& task : tasks) {
         if (task.getId() == taskId) {
