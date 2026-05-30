@@ -1,36 +1,41 @@
 # Task and Project Manager
 
-A simple C++17 OOP console application for managing school projects and tasks.
-The program stores data in memory and uses a console menu.
+A simple C++17 OOP console application for managing projects and tasks.
+The program uses a console menu and keeps all data in memory.
 
-## Checkpoint 2 Functionalities
+## Working Functionalities
 
-The current implementation includes:
-
-1. Add projects.
+1. Add a project.
 2. Show all projects.
-3. Edit a project.
+3. Edit a project's title, description, deadline, and status.
 4. Delete a project by project number.
-5. Add tasks to a project.
-6. Add recurring tasks with recurrence rule and next occurrence date.
-7. Show tasks in a project.
-8. Change task status.
+5. Add a normal task to a selected project.
+6. Add a recurring task with recurrence rule and next occurrence date.
+7. Show all tasks in a selected project.
+8. Change a task's status.
 9. Filter tasks by priority.
 10. Filter tasks by tag.
-11. Search tasks by title inside a selected project.
-12. Edit a task in a project by task number.
-13. Delete a task from a project by task number.
-14. Detect overdue tasks using simple `YYYY-MM-DD` date comparison.
-15. Show a project summary with:
-   - total tasks
-   - completed tasks
-   - overdue tasks
-   - urgent/high priority tasks
+11. Search tasks by title using partial match.
+12. Edit a task's title, description, deadline, priority, and assignee.
+13. Delete a task by task number.
+14. Detect overdue tasks using simple `YYYY-MM-DD` string comparison.
+15. Show project summary with total, completed, overdue, and high priority tasks.
 
-No file storage is used for this checkpoint. All data is kept in memory using vectors.
-Projects store tasks directly using `std::vector<Task>`.
+No file storage is used. Data is stored only while the program is running.
 
-## Project Structure
+## OOP Concepts Used
+
+- Inheritance: `Project` and `Task` inherit from `WorkItem`, and `RecurringTask` inherits from `Task`.
+- Abstract class: `WorkItem` is abstract because it has a pure virtual `display()` method.
+- Encapsulation: class fields are private or protected, with public getters and setters where needed.
+- `enum class`: `Status` and `Priority` are implemented as strongly typed enums.
+- Virtual methods: `display()` is virtual and overridden in child classes.
+- Composition: `Project` contains task objects using vectors.
+
+## File Structure
+
+The project uses separate files for the main classes. Header files are in `include/`,
+and implementation files are in `src/`.
 
 ```text
 oop-task-project-manager/
@@ -49,8 +54,15 @@ oop-task-project-manager/
 |   `-- WorkItem.cpp
 |-- build/
 |-- Makefile
+|-- .gitignore
 `-- README.md
 ```
+
+- `WorkItem` contains common fields and abstract behavior.
+- `Task` contains task-specific data such as priority, assignee, and tags.
+- `RecurringTask` extends `Task` with recurrence details.
+- `Project` contains and manages tasks.
+- `main.cpp` contains the console menu.
 
 ## How to Compile
 
@@ -60,50 +72,36 @@ Using the Makefile:
 make
 ```
 
-Or compile manually with g++:
+Manual compile command:
 
 ```bash
-g++ -std=c++17 -Wall -Wextra -pedantic -Iinclude src/main.cpp src/WorkItem.cpp src/Task.cpp src/RecurringTask.cpp src/Project.cpp -o build/task_manager
-```
-
-On Windows PowerShell:
-
-```powershell
 g++ -std=c++17 -Wall -Wextra -pedantic -Iinclude src/main.cpp src/WorkItem.cpp src/Task.cpp src/RecurringTask.cpp src/Project.cpp -o build/task_manager.exe
 ```
 
 ## How to Run
 
-After compiling with the Makefile on Linux/macOS:
-
-```bash
-./build/task_manager
-```
-
-After compiling manually on Windows PowerShell:
+On Windows PowerShell:
 
 ```powershell
 .\build\task_manager.exe
 ```
 
-## OOP Concepts Used
+On Linux/macOS, if compiled without `.exe`:
 
-- `WorkItem` is an abstract base class.
-- `Project` inherits from `WorkItem`.
-- `Task` inherits from `WorkItem`.
-- `RecurringTask` inherits from `Task`.
-- `Status` and `Priority` are implemented as `enum class`.
-- Fields are private or protected where appropriate.
-- Public getters and setters are used for controlled access.
-- Virtual methods are used for polymorphic behavior.
-- Projects store task objects directly in a vector.
+```bash
+./build/task_manager
+```
 
 ## Design Changes
 
-The original design planned more classes and features such as comments, reports,
-subtasks, and users. For checkpoint 2, the implementation focuses on the core
-class hierarchy and the first working functionalities. These extra features can
-be added later.
+The original design planned more advanced features such as comments, reports,
+subtasks, and users. For the final checkpoint, the implementation focuses on
+the required class hierarchy and working console functionalities.
+
+Smart pointers were removed because they are not required for this checkpoint
+and have not been studied yet. The implementation now uses `std::vector<Task>`
+for simple beginner-friendly task storage. Recurring tasks are stored separately
+as `std::vector<RecurringTask>` so their extra fields are preserved.
 
 ## Date Format
 
