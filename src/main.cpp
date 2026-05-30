@@ -137,15 +137,16 @@ void displayMenu() {
               << "3. Edit project\n"
               << "4. Delete project\n"
               << "5. Add task to project\n"
-              << "6. Show tasks in a project\n"
-              << "7. Change task status\n"
-              << "8. Filter tasks by priority\n"
-              << "9. Filter tasks by tag\n"
-              << "10. Search tasks by title\n"
-              << "11. Edit task in project\n"
-              << "12. Delete task from project\n"
-              << "13. Show project summary\n"
-              << "14. Exit\n";
+              << "6. Add recurring task to project\n"
+              << "7. Show tasks in a project\n"
+              << "8. Change task status\n"
+              << "9. Filter tasks by priority\n"
+              << "10. Filter tasks by tag\n"
+              << "11. Search tasks by title\n"
+              << "12. Edit task in project\n"
+              << "13. Delete task from project\n"
+              << "14. Show project summary\n"
+              << "15. Exit\n";
 }
 
 int main() {
@@ -157,7 +158,7 @@ int main() {
         displayMenu();
         int choice = readInt("Choose an option: ");
 
-        if (choice == 14) {
+        if (choice == 15) {
             std::cout << "Goodbye!\n";
             break;
         }
@@ -234,8 +235,40 @@ int main() {
                 continue;
             }
 
-            project->displayTasks();
+            std::string title = readLine("Recurring task title: ");
+            std::string description = readLine("Recurring task description: ");
+            std::string createdDate = readLine("Created date (YYYY-MM-DD): ");
+            Priority priority = readPriority();
+            std::string assignee = readLine("Assignee: ");
+            std::vector<std::string> tags = readTags();
+            std::string deadline = readLine("Deadline (YYYY-MM-DD): ");
+            std::string recurrenceRule = readLine("Recurrence rule (example: daily, weekly, monthly): ");
+            std::string nextOccurrenceDate = readLine("Next occurrence date (YYYY-MM-DD): ");
+
+            project->addRecurringTask(RecurringTask(nextTaskId,
+                                                    title,
+                                                    description,
+                                                    createdDate,
+                                                    deadline,
+                                                    priority,
+                                                    assignee,
+                                                    tags,
+                                                    recurrenceRule,
+                                                    nextOccurrenceDate));
+
+            std::cout << "Recurring task added with ID " << nextTaskId << ".\n";
+            nextTaskId++;
         } else if (choice == 7) {
+            int projectId = readInt("Project ID: ");
+            Project* project = findProjectById(projects, projectId);
+
+            if (project == nullptr) {
+                std::cout << "Project not found.\n";
+                continue;
+            }
+
+            project->displayTasks();
+        } else if (choice == 8) {
             int projectId = readInt("Project ID: ");
             Project* project = findProjectById(projects, projectId);
 
@@ -254,7 +287,7 @@ int main() {
 
             task->setStatus(readStatus());
             std::cout << "Task status updated.\n";
-        } else if (choice == 8) {
+        } else if (choice == 9) {
             int projectId = readInt("Project ID: ");
             Project* project = findProjectById(projects, projectId);
 
@@ -264,7 +297,7 @@ int main() {
             }
 
             project->displayTasksByPriority(readPriority());
-        } else if (choice == 9) {
+        } else if (choice == 10) {
             int projectId = readInt("Project ID: ");
             Project* project = findProjectById(projects, projectId);
 
@@ -275,7 +308,7 @@ int main() {
 
             std::string tag = readLine("Tag to search: ");
             project->displayTasksByTag(tag);
-        } else if (choice == 10) {
+        } else if (choice == 11) {
             int projectId = readInt("Project ID: ");
             Project* project = findProjectById(projects, projectId);
 
@@ -286,7 +319,7 @@ int main() {
 
             std::string searchText = readLine("Search title: ");
             project->searchTasksByTitle(searchText);
-        } else if (choice == 11) {
+        } else if (choice == 12) {
             int projectId = readInt("Project ID: ");
             Project* project = findProjectById(projects, projectId);
 
@@ -317,7 +350,7 @@ int main() {
             task->setAssignee(assignee);
 
             std::cout << "Task edited successfully.\n";
-        } else if (choice == 12) {
+        } else if (choice == 13) {
             int projectId = readInt("Project ID: ");
             Project* project = findProjectById(projects, projectId);
 
@@ -334,7 +367,7 @@ int main() {
             } else {
                 std::cout << "Invalid task number. No task was deleted.\n";
             }
-        } else if (choice == 13) {
+        } else if (choice == 14) {
             int projectId = readInt("Project ID: ");
             Project* project = findProjectById(projects, projectId);
 

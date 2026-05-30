@@ -12,15 +12,16 @@ The current implementation includes:
 3. Edit a project.
 4. Delete a project by project number.
 5. Add tasks to a project.
-6. Show tasks in a project.
-7. Change task status.
-8. Filter tasks by priority.
-9. Filter tasks by tag.
-10. Search tasks by title inside a selected project.
-11. Edit a task in a project by task number.
-12. Delete a task from a project by task number.
-13. Detect overdue tasks using simple `YYYY-MM-DD` date comparison.
-14. Show a project summary with:
+6. Add recurring tasks with recurrence rule and next occurrence date.
+7. Show tasks in a project.
+8. Change task status.
+9. Filter tasks by priority.
+10. Filter tasks by tag.
+11. Search tasks by title inside a selected project.
+12. Edit a task in a project by task number.
+13. Delete a task from a project by task number.
+14. Detect overdue tasks using simple `YYYY-MM-DD` date comparison.
+15. Show a project summary with:
    - total tasks
    - completed tasks
    - overdue tasks

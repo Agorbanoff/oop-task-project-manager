@@ -10,20 +10,32 @@ RecurringTask::RecurringTask(int id,
                              Priority priority,
                              const std::string& assignee,
                              const std::vector<std::string>& tags,
-                             const std::string& recurrence)
+                             const std::string& recurrenceRule,
+                             const std::string& nextOccurrenceDate)
     : Task(id, title, description, createdDate, deadline, priority, assignee, tags),
-      recurrence(recurrence) {
+      recurrenceRule(recurrenceRule),
+      nextOccurrenceDate(nextOccurrenceDate) {
 }
 
-std::string RecurringTask::getRecurrence() const {
-    return recurrence;
+std::string RecurringTask::getRecurrenceRule() const {
+    return recurrenceRule;
 }
 
-void RecurringTask::setRecurrence(const std::string& recurrence) {
-    this->recurrence = recurrence;
+std::string RecurringTask::getNextOccurrenceDate() const {
+    return nextOccurrenceDate;
+}
+
+void RecurringTask::setRecurrenceRule(const std::string& recurrenceRule) {
+    this->recurrenceRule = recurrenceRule;
+}
+
+void RecurringTask::setNextOccurrenceDate(const std::string& nextOccurrenceDate) {
+    this->nextOccurrenceDate = nextOccurrenceDate;
 }
 
 void RecurringTask::display() const {
+    std::cout << "[Recurring Task]\n";
     Task::display();
-    std::cout << "Recurring: " << recurrence << '\n';
+    std::cout << "Recurrence rule: " << recurrenceRule << '\n'
+              << "Next occurrence date: " << nextOccurrenceDate << '\n';
 }

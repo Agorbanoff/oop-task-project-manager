@@ -2,6 +2,7 @@
 #define PROJECT_H
 
 #include "Priority.h"
+#include "RecurringTask.h"
 #include "Status.h"
 #include "Task.h"
 #include "WorkItem.h"
@@ -12,6 +13,7 @@
 class Project : public WorkItem {
 private:
     std::vector<Task> tasks;
+    std::vector<RecurringTask> recurringTasks;
 
 public:
     Project(int id,
@@ -21,6 +23,7 @@ public:
             const std::string& deadline);
 
     void addTask(const Task& task);
+    void addRecurringTask(const RecurringTask& task);
     Task* findTaskById(int taskId);
     Task* findTaskByIndex(int taskNumber);
     bool deleteTaskByIndex(int taskNumber);
