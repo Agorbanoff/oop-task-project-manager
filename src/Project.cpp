@@ -10,14 +10,14 @@ Project::Project(int id,
     : WorkItem(id, title, description, createdDate, deadline) {
 }
 
-void Project::addTask(const std::shared_ptr<Task>& task) {
+void Project::addTask(const Task& task) {
     tasks.push_back(task);
 }
 
-std::shared_ptr<Task> Project::findTaskById(int taskId) {
-    for (std::shared_ptr<Task>& task : tasks) {
-        if (task->getId() == taskId) {
-            return task;
+Task* Project::findTaskById(int taskId) {
+    for (Task& task : tasks) {
+        if (task.getId() == taskId) {
+            return &task;
         }
     }
 
@@ -40,19 +40,19 @@ void Project::displayTasks() const {
         return;
     }
 
-    for (const std::shared_ptr<Task>& task : tasks) {
+    for (const Task& task : tasks) {
         std::cout << "------------------------\n";
-        task->display();
+        task.display();
     }
 }
 
 void Project::displayTasksByStatus(Status status) const {
     bool found = false;
 
-    for (const std::shared_ptr<Task>& task : tasks) {
-        if (task->getStatus() == status) {
+    for (const Task& task : tasks) {
+        if (task.getStatus() == status) {
             std::cout << "------------------------\n";
-            task->display();
+            task.display();
             found = true;
         }
     }
@@ -65,10 +65,10 @@ void Project::displayTasksByStatus(Status status) const {
 void Project::displayTasksByPriority(Priority priority) const {
     bool found = false;
 
-    for (const std::shared_ptr<Task>& task : tasks) {
-        if (task->getPriority() == priority) {
+    for (const Task& task : tasks) {
+        if (task.getPriority() == priority) {
             std::cout << "------------------------\n";
-            task->display();
+            task.display();
             found = true;
         }
     }
@@ -83,16 +83,16 @@ void Project::showSummary() const {
     int overdueTasks = 0;
     int highPriorityTasks = 0;
 
-    for (const std::shared_ptr<Task>& task : tasks) {
-        if (task->getStatus() == Status::Completed) {
+    for (const Task& task : tasks) {
+        if (task.getStatus() == Status::Completed) {
             completedTasks++;
         }
 
-        if (task->isOverdue()) {
+        if (task.isOverdue()) {
             overdueTasks++;
         }
 
-        if (task->getPriority() == Priority::High) {
+        if (task.getPriority() == Priority::High) {
             highPriorityTasks++;
         }
     }

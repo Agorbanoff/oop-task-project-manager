@@ -6,7 +6,6 @@
 
 #include <iostream>
 #include <limits>
-#include <memory>
 #include <string>
 #include <vector>
 
@@ -100,10 +99,10 @@ std::vector<std::string> readTags() {
     return tags;
 }
 
-std::shared_ptr<Project> findProjectById(std::vector<std::shared_ptr<Project>>& projects, int projectId) {
-    for (std::shared_ptr<Project>& project : projects) {
-        if (project->getId() == projectId) {
-            return project;
+Project* findProjectById(std::vector<Project>& projects, int projectId) {
+    for (Project& project : projects) {
+        if (project.getId() == projectId) {
+            return &project;
         }
     }
 
@@ -123,7 +122,7 @@ void displayMenu() {
 }
 
 int main() {
-    std::vector<std::shared_ptr<Project>> projects;
+    std::vector<Project> projects;
     int nextProjectId = 1;
     int nextTaskId = 1;
 
@@ -142,22 +141,21 @@ int main() {
             std::string createdDate = readLine("Created date (YYYY-MM-DD): ");
             std::string deadline = readLine("Project deadline (YYYY-MM-DD): ");
 
-            projects.push_back(std::make_shared<Project>(
-                nextProjectId, title, description, createdDate, deadline));
+            projects.push_back(Project(nextProjectId, title, description, createdDate, deadline));
             std::cout << "Project created with ID " << nextProjectId << ".\n";
             nextProjectId++;
         } else if (choice == 2) {
             if (projects.empty()) {
                 std::cout << "No projects created yet.\n";
             } else {
-                for (const std::shared_ptr<Project>& project : projects) {
+                for (const Project& project : projects) {
                     std::cout << "------------------------\n";
-                    project->display();
+                    project.display();
                 }
             }
         } else if (choice == 3) {
             int projectId = readInt("Project ID: ");
-            std::shared_ptr<Project> project = findProjectById(projects, projectId);
+            Project* project = findProjectById(projects, projectId);
 
             if (project == nullptr) {
                 std::cout << "Project not found.\n";
@@ -171,22 +169,13 @@ int main() {
             std::string assignee = readLine("Assignee: ");
             std::vector<std::string> tags = readTags();
             std::string deadline = readLine("Deadline (YYYY-MM-DD): ");
-            int recurringChoice = readInt("Is this a recurring task? (1 = yes, 0 = no): ");
-
-            if (recurringChoice == 1) {
-                std::string recurrence = readLine("Recurrence (example: daily, weekly, monthly): ");
-                project->addTask(std::make_shared<RecurringTask>(
-                    nextTaskId, title, description, createdDate, deadline, priority, assignee, tags, recurrence));
-            } else {
-                project->addTask(std::make_shared<Task>(
-                    nextTaskId, title, description, createdDate, deadline, priority, assignee, tags));
-            }
+            project->addTask(Task(nextTaskId, title, description, createdDate, deadline, priority, assignee, tags));
 
             std::cout << "Task added with ID " << nextTaskId << ".\n";
             nextTaskId++;
         } else if (choice == 4) {
             int projectId = readInt("Project ID: ");
-            std::shared_ptr<Project> project = findProjectById(projects, projectId);
+            Project* project = findProjectById(projects, projectId);
 
             if (project == nullptr) {
                 std::cout << "Project not found.\n";
@@ -196,7 +185,7 @@ int main() {
             project->displayTasks();
         } else if (choice == 5) {
             int projectId = readInt("Project ID: ");
-            std::shared_ptr<Project> project = findProjectById(projects, projectId);
+            Project* project = findProjectById(projects, projectId);
 
             if (project == nullptr) {
                 std::cout << "Project not found.\n";
@@ -204,7 +193,7 @@ int main() {
             }
 
             int taskId = readInt("Task ID: ");
-            std::shared_ptr<Task> task = project->findTaskById(taskId);
+            Task* task = project->findTaskById(taskId);
 
             if (task == nullptr) {
                 std::cout << "Task not found.\n";
@@ -215,7 +204,7 @@ int main() {
             std::cout << "Task status updated.\n";
         } else if (choice == 6) {
             int projectId = readInt("Project ID: ");
-            std::shared_ptr<Project> project = findProjectById(projects, projectId);
+            Project* project = findProjectById(projects, projectId);
 
             if (project == nullptr) {
                 std::cout << "Project not found.\n";
@@ -225,7 +214,7 @@ int main() {
             project->displayTasksByPriority(readPriority());
         } else if (choice == 7) {
             int projectId = readInt("Project ID: ");
-            std::shared_ptr<Project> project = findProjectById(projects, projectId);
+            Project* project = findProjectById(projects, projectId);
 
             if (project == nullptr) {
                 std::cout << "Project not found.\n";

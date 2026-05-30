@@ -21,27 +21,28 @@ The current implementation includes:
    - urgent/high priority tasks
 
 No file storage is used for this checkpoint. All data is kept in memory using vectors.
+Projects store tasks directly using `std::vector<Task>`.
 
 ## Project Structure
 
 ```text
 oop-task-project-manager/
-├── include/
-│   ├── Priority.h
-│   ├── Project.h
-│   ├── RecurringTask.h
-│   ├── Status.h
-│   ├── Task.h
-│   └── WorkItem.h
-├── src/
-│   ├── main.cpp
-│   ├── Project.cpp
-│   ├── RecurringTask.cpp
-│   ├── Task.cpp
-│   └── WorkItem.cpp
-├── build/
-├── Makefile
-└── README.md
+|-- include/
+|   |-- Priority.h
+|   |-- Project.h
+|   |-- RecurringTask.h
+|   |-- Status.h
+|   |-- Task.h
+|   `-- WorkItem.h
+|-- src/
+|   |-- main.cpp
+|   |-- Project.cpp
+|   |-- RecurringTask.cpp
+|   |-- Task.cpp
+|   `-- WorkItem.cpp
+|-- build/
+|-- Makefile
+`-- README.md
 ```
 
 ## How to Compile
@@ -88,7 +89,7 @@ After compiling manually on Windows PowerShell:
 - Fields are private or protected where appropriate.
 - Public getters and setters are used for controlled access.
 - Virtual methods are used for polymorphic behavior.
-- Smart pointers are used to store tasks in projects.
+- Projects store task objects directly in a vector.
 
 ## Design Changes
 

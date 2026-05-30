@@ -6,13 +6,12 @@
 #include "Task.h"
 #include "WorkItem.h"
 
-#include <memory>
 #include <string>
 #include <vector>
 
 class Project : public WorkItem {
 private:
-    std::vector<std::shared_ptr<Task>> tasks;
+    std::vector<Task> tasks;
 
 public:
     Project(int id,
@@ -21,8 +20,8 @@ public:
             const std::string& createdDate,
             const std::string& deadline);
 
-    void addTask(const std::shared_ptr<Task>& task);
-    std::shared_ptr<Task> findTaskById(int taskId);
+    void addTask(const Task& task);
+    Task* findTaskById(int taskId);
 
     void display() const override;
     void displayTasks() const;

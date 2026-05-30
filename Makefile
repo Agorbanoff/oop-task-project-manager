@@ -1,18 +1,18 @@
 CXX = g++
 CXXFLAGS = -std=c++17 -Wall -Wextra -pedantic -Iinclude
-TARGET = build/task_manager
+TARGET = build/task_manager.exe
 SOURCES = src/main.cpp src/WorkItem.cpp src/Task.cpp src/RecurringTask.cpp src/Project.cpp
 
 all: $(TARGET)
 
 $(TARGET): $(SOURCES)
-	mkdir -p build
+	powershell -NoProfile -Command "New-Item -ItemType Directory -Force -Path build | Out-Null"
 	$(CXX) $(CXXFLAGS) $(SOURCES) -o $(TARGET)
 
 run: $(TARGET)
-	./$(TARGET)
+	.\$(TARGET)
 
 clean:
-	rm -rf build
+	powershell -NoProfile -Command "Remove-Item -Recurse -Force build -ErrorAction SilentlyContinue"
 
 .PHONY: all run clean
