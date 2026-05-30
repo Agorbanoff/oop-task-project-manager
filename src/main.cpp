@@ -117,9 +117,10 @@ void displayMenu() {
               << "4. Show tasks in a project\n"
               << "5. Change task status\n"
               << "6. Filter tasks by priority\n"
-              << "7. Delete task from project\n"
-              << "8. Show project summary\n"
-              << "9. Exit\n";
+              << "7. Edit task in project\n"
+              << "8. Delete task from project\n"
+              << "9. Show project summary\n"
+              << "10. Exit\n";
 }
 
 int main() {
@@ -131,7 +132,7 @@ int main() {
         displayMenu();
         int choice = readInt("Choose an option: ");
 
-        if (choice == 9) {
+        if (choice == 10) {
             std::cout << "Goodbye!\n";
             break;
         }
@@ -223,6 +224,37 @@ int main() {
             }
 
             project->displayTasks();
+            int taskNumber = readInt("Task number to edit: ");
+            Task* task = project->findTaskByIndex(taskNumber);
+
+            if (task == nullptr) {
+                std::cout << "Invalid task number. No task was edited.\n";
+                continue;
+            }
+
+            std::string title = readLine("New task title: ");
+            std::string description = readLine("New task description: ");
+            std::string deadline = readLine("New deadline (YYYY-MM-DD): ");
+            Priority priority = readPriority();
+            std::string assignee = readLine("New assignee: ");
+
+            task->setTitle(title);
+            task->setDescription(description);
+            task->setDeadline(deadline);
+            task->setPriority(priority);
+            task->setAssignee(assignee);
+
+            std::cout << "Task edited successfully.\n";
+        } else if (choice == 8) {
+            int projectId = readInt("Project ID: ");
+            Project* project = findProjectById(projects, projectId);
+
+            if (project == nullptr) {
+                std::cout << "Project not found.\n";
+                continue;
+            }
+
+            project->displayTasks();
             int taskNumber = readInt("Task number to delete: ");
 
             if (project->deleteTaskByIndex(taskNumber)) {
@@ -230,7 +262,7 @@ int main() {
             } else {
                 std::cout << "Invalid task number. No task was deleted.\n";
             }
-        } else if (choice == 8) {
+        } else if (choice == 9) {
             int projectId = readInt("Project ID: ");
             Project* project = findProjectById(projects, projectId);
 

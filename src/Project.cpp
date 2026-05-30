@@ -24,6 +24,14 @@ Task* Project::findTaskById(int taskId) {
     return nullptr;
 }
 
+Task* Project::findTaskByIndex(int taskNumber) {
+    if (taskNumber < 1 || taskNumber > static_cast<int>(tasks.size())) {
+        return nullptr;
+    }
+
+    return &tasks[taskNumber - 1];
+}
+
 bool Project::deleteTaskByIndex(int taskNumber) {
     if (taskNumber < 1 || taskNumber > static_cast<int>(tasks.size())) {
         return false;
